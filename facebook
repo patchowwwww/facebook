@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>facebook - تسجيل الدخول</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0eafc, #cfdef3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-box {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+
+    .login-box h2 {
+      color: #1877f2;
+      margin-bottom: 25px;
+      font-size: 28px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 5px;
+      transition: 0.3s;
+    }
+
+    .login-btn {
+      background: #1877f2;
+      color: white;
+    }
+
+    .login-btn:hover {
+      background: #0d6efd;
+    }
+
+    .view-btn {
+      background: #28a745;
+      color: white;
+    }
+
+    .delete-btn {
+      background: #dc3545;
+      color: white;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .saved-data {
+      background: #f8f9fa;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #333;
+      text-align: left;
+      direction: ltr;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <h2>facebook</h2>
+    <input id="email" type="text" placeholder="البريد الإلكتروني">
+    <input id="password" type="password" placeholder="كلمة المرور">
+    <button class="login-btn" onclick="saveData()">تسجيل الدخول</button>
+    <button class="view-btn" onclick="viewData()">عرض البيانات</button>
+    <button class="delete-btn" onclick="clearData()">مسح البيانات</button>
+    <div class="message" id="msg"></div>
+    <div class="saved-data" id="savedData" style="display: none;"></div>
+  </div>
+
+  <script>
+    function saveData() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const msg = document.getElementById("msg");
+      const savedDataBox = document.getElementById("savedData");
+
+      if (email === "" || password === "") {
+        msg.style.color = "red";
+        msg.innerText = "يرجى ملء جميع الحقول.";
+        savedDataBox.style.display = "none";
+        return;
+      }
+
+      localStorage.setItem("savedEmail", email);
+      localStorage.setItem("savedPassword", password);
+
+      msg.style.color = "green";
+      msg.innerText = "✅ تم حفظ بياناتك بنجاح.";
+      savedDataBox.style.display = "none";
+    }
+
+    function viewData() {
+      const email = localStorage.getItem("savedEmail");
+      const password = localStorage.getItem("savedPassword");
+      const savedDataBox = document.getElementById("savedData");
+
+      if (email && password) {
+        savedDataBox.innerHTML = `📧 Email: ${email}<br>🔒 Password: ${password}`;
+        savedDataBox.style.display = "block";
+      } else {
+        savedDataBox.innerText = "❌ لا توجد بيانات محفوظة.";
+        savedDataBox.style.display = "block";
+      }
+
+      document.getElementById("msg").innerText = "";
+    }
+
+    function clearData() {
+      localStorage.removeItem("savedEmail");
+      localStorage.removeItem("savedPassword");
+
+      document.getElementById("msg").style.color = "orange";
+      document.getElementById("msg").innerText = "🗑️ تم مسح البيانات.";
+      document.getElementById("savedData").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
